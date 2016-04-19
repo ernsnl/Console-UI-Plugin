@@ -1,0 +1,91 @@
+.corruption {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: -5;
+}
+.corrupt-one {}
+.corrupt {
+    z-index: -10;
+    border: 1px solid forestgreen;
+}
+.corrupted {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    z-index: 10;
+    /* Chrome, Safari, Opera */
+    -webkit-animation-name: corrupt_animation;
+    -webkit-animation-timing-function: cubic-bezier(.23,1.79,.48,1.63);
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-fill-mode: forwards;
+    /* Standard syntax */
+    animation-name: corrupt_animation;
+    animation-timing-function: cubic-bezier(.23,1.79,.48,1.63);
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+/* Chrome, Safari, Opera */
+
+@-webkit-keyframes corrupt_animation {
+    0% {
+        background-color: rgba(0, 0, 255, 0.0);
+    }
+    33% {
+        background-color: rgba(0, 0, 255, 0.3);
+    }
+    66% {
+        background-color: rgba(0, 0, 255, 0.6);
+    }
+    100% {
+        background-color: rgba(0, 0, 255, 1);
+    }
+}
+
+/* Standard syntax */
+
+@keyframes corrupt_animation {
+    0% {
+        background-color: rgba(0, 0, 255, 0.0);
+    }
+    33% {
+        background-color: rgba(0, 0, 255, 0.3);
+    }
+    66% {
+        background-color: rgba(0, 0, 255, 0.6);
+    }
+    100% {
+        background-color: rgba(0, 0, 255, 1);
+    }
+}
+.corrupt-xlong {
+    /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 1.25s;
+    /* Standard syntax */
+    animation-duration: 1.25s;
+}
+.corrupt-long {
+    /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 1s;
+    /* Standard syntax */
+    animation-duration: 1s;
+}
+.corrupt-normal {
+    /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 0.75s;
+    /* Standard syntax */
+    animation-duration: 0.75s;
+}
+.corrupt-short {
+    /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 0.5s;
+    /* Standard syntax */
+    animation-duration: 0.5s;
+}
+.corrupt-xshort {
+    /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 0.25s;
+    /* Standard syntax */
+    animation-duration: 0.25s;
+}

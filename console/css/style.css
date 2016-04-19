@@ -1,0 +1,58 @@
+* {
+    font-family: "Source Code Pro"
+}
+html, body {
+    --color: white;
+    padding: 0;
+    --height: 100%;
+    --background-color: black;
+}
+.console {
+    background-color: black;
+    color: white;
+    border: 5px solid #ccc;
+    border-radius: 3px;
+    overflow-y: scroll;
+}
+.command-line {
+    position: absolute;
+    bottom: 0;
+}
+.cursor-indicator {
+    color: white;
+    background-color: white;
+    display: inline;
+    -webkit-animation-name: cursor_animation;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 1s;
+    /* Standard syntax */
+    animation-name: cursor_animation;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-duration: 1s;
+}
+
+/* Chrome, Safari, Opera */
+
+@-webkit-keyframes cursor_animation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Standard syntax */
+
+@keyframes cursor_animation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
