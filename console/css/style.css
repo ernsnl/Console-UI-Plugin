@@ -15,10 +15,13 @@ html, body {
     overflow-y: scroll;
 }
 .command-line {
-    position: absolute;
-    bottom: 0;
+    width: 100%;
+    float: left;
 }
-.cursor-indicator {
+.cursor-indicator.active-console{
+    width:9px;
+    height:22px;
+    float:left;
     color: white;
     background-color: white;
     display: inline;
@@ -55,4 +58,15 @@ html, body {
     to {
         opacity: 1;
     }
+}
+.console_directory_message{
+  float:left;
+}
+
+.console-input-box {
+    color: white;
+    background: transparent;
+    border: none;
+    width:9px;
+    float:left;
 }
