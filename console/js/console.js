@@ -1,21 +1,34 @@
+// TO DO: ADDING AJAX
+
 (function($) {
 
     // Console Class Definition
     var ConsoleCls = function(obj, settings) {
         this.console_elem = obj;
         this.console_settings = settings;
-        this.init();
+
+        // TO DO: ADD MAIN Command
+        // TO DO: DEFINE MAIN DIR
+        this.console_commands = [];
+        this.console_dir = {};
     };
+
+    ConsoleCls.prototype.self = function() {
+        return this;
+    }
 
     // Init a Class which will create the Console
     ConsoleCls.prototype.init = function() {
         this.defineProperties();
         $(this.console_elem).append(this.console_settings.console_welcome_message);
-        $(this.console_elem).append("<p class='command-line'>" + "<span class='console_directory_message'>" + this.console_settings.console_directory_message + ": </span>" + "</p>");
+        $(this.console_elem).append("<p class='command-line'>" + "<span class='console_directory_message'>" + this.console_settings.console_directory + ": </span>" + "</p>");
 
-        //Adding Element for Necessary Console Behaviors
+        // Adding Element for Necessary Console Behaviors
         this.addInputBox();
         this.setCursorIndicator();
+
+        // TO DO: ADD SETTING COMMANDS
+        // TO DO: ADD DIR SPECIAL COMMANDS
     };
 
     // For Defining CSS Properties
@@ -33,9 +46,7 @@
             $(this.console_elem).find(".console-input-box").remove();
         } else {
             $(this.console_elem).find(".command-line").append("<input type='text' class='console-input-box'/>");
-            $(this.console_elem).find(".console-input-box").keypress(function(event) {
-                this.handleKeyPress(event);
-            });
+            $(this.console_elem).find(".console-input-box").bind("keypress", this.handleKeyPress);
         }
     };
 
@@ -50,7 +61,24 @@
 
 
     ConsoleCls.prototype.handleKeyPress = function(event) {
+        // TO DO: Custom key press function
+
+        // Order of key stroke : Custom Dir Special -> Custom General Special -> Default Dir Special -> Default
+        // Unchangable ones: Enter, Delete, Home, End, Up, Down, Left, PageUp, PageDown, Backspace
+
+        // Movement: Up, Down, Left, Right, Home, End, PageUp, PageDown,
+        // Deleting: Delete, Backspace
+        // Handling: Enter,
+        // Rest: Currently input
+        if(event.keyCode == 13){
+          this.handleCommands('Enter');
+        }
         console.log('Key Pressed');
+    };
+
+    ConsoleCls.prototype.handleCommands = function(cmd){
+      console.log('Command Triggered: ' + cmd);
+
     };
 
     $.fn.console = function(options) {
@@ -58,6 +86,7 @@
         var settings = $.extend({}, $.fn.console.defaults, options);
         return this.each(function() {
             var console = new ConsoleCls(this, settings);
+            console.init();
         });
     };
 
@@ -67,7 +96,6 @@
 $.fn.console.defaults = {
     class_name: "console",
     console_welcome_message: "Welcome the Console",
-    console_directory_message: "Example/ConsolePlugin",
     console_directory: {
         "main": {
             "dir1": {},
