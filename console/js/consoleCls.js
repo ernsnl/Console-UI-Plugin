@@ -4,7 +4,10 @@ var consoleDefaults = {
     console_directory: {
         "main": {
             "dir1": {},
-            "dir2": {}
+            "dir2": {},
+            'alert': function() {
+                alert('aa');
+            }
         }
     },
     showLineNumbers: true,
@@ -18,47 +21,68 @@ var self;
 var ConsoleCls = function(selector, settings) {
     this.currentDocument = document;
     this.selector = selector;
-    this.selectedElements = document.querySelectorAll(selector);
+    this.selectedElement = document.querySelector(selector);
     this.settings = consoleDefaults;
+    this.navigationOrder = [];
     // TO DO: Expand Controls for settings
     if (settings != null && typeof settings === "object")
         this.settings = settings;
 
-
-    this.currentDir = this.settings.console_directory;
-    // Creation of General Command Line
-    this.commandLine = this.createCommandLine();
-
-
-
-
-
     // TO DO: ADD MAIN Command
     // TO DO: DEFINE MAIN DIR
-    this.commands = [];
-    this.directory = {};
-
+    this.commands = {
+        'cd': {},
+        'ls': {},
+        'Ctrl': {},
+        '!!': {},
+        'date': {},
+        'cal': {},
+        'reboot': {},
+        'history': {}
+    };
+    this.directory = this.settings.console_directory;
 
     self = this;
-    // Init Console for every Element
-    this.selectedElements.forEach(function(element, index) {
-        self.init(element);
-    });
+
+    this.currentDir = Object.keys(self.settings.console_directory)[0];
+    this.navigationOrder.push(self.currentDir);
+    this.currentDirNavigation = self.getNavigationDirectory(self.currentDir);
+
+    // Creation of General Command Line
+    this.commandLine = this.createCommandLine();
+    // Init Console for  Element
+    self.init(this.selectedElement);
 };
 
-ConsoleCls.prototype.self = function() {
-    return this;
-}
+ConsoleCls.prototype.changeCurrentDir = function() {
+
+};
+
+ConsoleCls.prototype.getNavigationDirectory = function() {
+    var navigationArray = [];
+    for (var key in self.directory[self.currentDir]) {
+        if (self.directory[self.currentDir][key] != null && typeof self.directory[self.currentDir][key] !== 'undefined' &&
+            typeof self.directory[self.currentDir][key] === 'object' && typeof self.directory[self.currentDir][key] != 'function') {
+            navigationArray.push(key);
+            console.log(key);
+        }
+    };
+};
+
+ConsoleCls.prototype.getCurrentDirSpan = function() {
+    var span = self.currentDocument.createElement("span");
+    span.appendChild(self.currentDocument.createTextNode(self.currentDir + ": "));
+    span.classList.add("console_directory_message");
+
+    return span;
+};
 
 ConsoleCls.prototype.createCommandLine = function(type) {
-    var p = this.currentDocument.createElement("p");
+    var p = self.currentDocument.createElement("p");
 
-    var span = this.currentDocument.createElement("span");
-    span.appendChild(this.currentDocument.createTextNode(this.currentDir + ": "));
-    span.classList.add("console_directory_message");
-    p.appendChild(span);
+    p.appendChild(self.getCurrentDirSpan());
 
-    var inputBox = this.currentDocument.createElement("input");
+    var inputBox = self.currentDocument.createElement("input");
     if (type === undefined || type == "" || type == null) {
         inputBox.type = "text";
     } else {
@@ -68,12 +92,25 @@ ConsoleCls.prototype.createCommandLine = function(type) {
     inputBox.addEventListener("keypress", self.handleKeyPress);
     p.appendChild(inputBox);
 
-    span = this.currentDocument.createElement("span");
-    span.classList.add("cursor-indicator","active-console");
+    // Creating a cursor indicator for console application
+    span = self.currentDocument.createElement("span");
+    span.classList.add("cursor-indicator", "active-console");
     p.appendChild(span);
 
     p.classList.add("command-line");
     return p;
+};
+
+ConsoleCls.prototype.appendCommandLine = function(inputText) {
+    var p = self.currentDocument.createElement("p");
+    p.appendChild(self.getCurrentDirSpan());
+
+    var span = self.currentDocument.createElement("span");
+    span.appendChild(self.currentDocument.createTextNode(inputText));
+    p.appendChild(span);
+
+    var currentCommandLine = self.currentDocument.querySelector(".command-line");
+    self.selectedElement.insertBefore(p, currentCommandLine);
 };
 
 // Init a Class which will create the Console
@@ -96,17 +133,6 @@ ConsoleCls.prototype.defineProperties = function(element) {
     element.classList.add(this.settings.class_name);
 };
 
-
-// Creating a cursor indicator for console application
-ConsoleCls.prototype.setCursorIndicator = function() {
-    if ($(this.console_elem).find(".cursor-indicator").length > 0) {
-        $(this.console_elem).find(".cursor-indicator").remove();
-    } else {
-        $(this.console_elem).find(".command-line").append("<span class='cursor-indicator active-console'></span>");
-    }
-};
-
-
 ConsoleCls.prototype.handleKeyPress = function(event) {
     // TO DO: Custom key press function
 
@@ -118,6 +144,9 @@ ConsoleCls.prototype.handleKeyPress = function(event) {
     // Handling: Enter,
     // Rest: Currently input
     if (event.keyCode == 13) {
+        self.appendCommandLine(self.currentDocument.querySelector(".console-input-box").value);
+        self.currentDocument.querySelector(".console-input-box").value = "";
+        // TO DO: ADD RESET WIDTH
         self.handleCommands('Enter');
     }
     console.log('Key Pressed');
@@ -125,5 +154,4 @@ ConsoleCls.prototype.handleKeyPress = function(event) {
 
 ConsoleCls.prototype.handleCommands = function(cmd) {
     console.log('Command Triggered: ' + cmd);
-
 };
