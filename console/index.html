@@ -12,9 +12,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!--Custom Sytles-->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Custom Scripts-->
-    <script src="js/main.js"></script>
-    <script src="js/console.js"></script>
+
+
 </head>
 
 <body>
@@ -27,13 +26,16 @@
             </div>
         </div>
 
-        <div id="console" class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8  col-md-offset-2 col-lg-6 col-lg-offset-3"></div>
-        <div id="console2" class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8  col-md-offset-2 col-lg-6 col-lg-offset-3"></div>
+        <div id="console" class=" col-xs-12 col-sm-10 col-sm-offset-1 col-md-8  col-md-offset-2 col-lg-6 col-lg-offset-3"></div>
+        <div id="console2" class=" col-xs-12 col-sm-10 col-sm-offset-1 col-md-8  col-md-offset-2 col-lg-6 col-lg-offset-3"></div>
     </div>
 </body>
+<!-- Custom Scripts-->
+<script src="js/main.js"></script>
+<script src="js/consoleCls.js"></script>
 <script>
-    $("#console").console({console_welcome_message : 'Hello!'});
-    $("#console2").console();
+    var consoleNew = new ConsoleCls("#console");
+    var consoleNew2 = new ConsoleCls("#console2");
 </script>
 
 </html>
