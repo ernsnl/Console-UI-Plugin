@@ -118,6 +118,7 @@ ConsoleCls.prototype.init = function(element) {
     this.defineProperties(element);
     element.appendChild(this.currentDocument.createTextNode(this.settings.console_welcome_message));
     element.appendChild(self.createCommandLine());
+    self.currentDocument.querySelector(".console-input-box").focus();
     // TO DO: ADD SETTING COMMANDS
     // TO DO: ADD DIR SPECIAL COMMANDS
 };
@@ -146,8 +147,12 @@ ConsoleCls.prototype.handleKeyPress = function(event) {
     if (event.keyCode == 13) {
         self.appendCommandLine(self.currentDocument.querySelector(".console-input-box").value);
         self.currentDocument.querySelector(".console-input-box").value = "";
-        // TO DO: ADD RESET WIDTH
+        self.currentDocument.querySelector(".console-input-box").style.width = 5 + 'px';
         self.handleCommands('Enter');
+    }
+    else{
+      var currentWidth = self.currentDocument.querySelector(".console-input-box").offsetWidth;
+      self.currentDocument.querySelector(".console-input-box").style.width = currentWidth + 12 + 'px';
     }
     console.log('Key Pressed');
 };
